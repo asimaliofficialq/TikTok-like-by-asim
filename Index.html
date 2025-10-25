@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TikTok Like BY ASIM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body {
+      background: radial-gradient(circle at top, #000 20%, #111 80%);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      color: #ff0050;
+      font-size: 20px;
+      opacity: 0.8;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(17,17,17,0.95);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 10px 20px;
+      box-shadow: 0 0 10px rgba(255,0,80,0.3);
+      z-index: 10;
+    }
+    .menu-icon {
+      font-size: 25px;
+      cursor: pointer;
+      color: #fff;
+      transition: 0.3s;
+    }
+    .menu-icon:hover {
+      color: #ff0050;
+      transform: scale(1.1);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 220px;
+      height: 100%;
+      background: linear-gradient(180deg, #0a0a0a, #1a1a1a);
+      box-shadow: -5px 0 15px rgba(255, 0, 80, 0.2);
+      transition: right 0.3s ease;
+      padding-top: 80px;
+      z-index: 20;
+    }
+    .sidebar.active { right: 0; }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 25px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: all 0.3s;
+      background: linear-gradient(90deg, transparent, transparent);
+    }
+    .sidebar a:hover {
+      border-left: 3px solid #ff0050;
+      background: linear-gradient(90deg, rgba(255,0,80,0.2), rgba(0,255,255,0.2));
+      color: #00ffee;
+      transform: translateX(-5px);
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      z-index: 15;
+    }
+    .overlay.active { display: block; }
+
+    /* Main container */
+    .container {
+      margin-top: 120px;
+      background: rgba(17,17,17,0.95);
+      border-radius: 15px;
+      padding: 25px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 25px rgba(255, 0, 80, 0.3);
+      text-align: center;
+      z-index: 5;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, #ff0050, #00ffee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+
+    input {
+      background: #222;
+      color: #fff;
+      outline: none;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ff0050, #ff7b00, #00ffee);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .message {
+      font-size: 0.9rem;
+      min-height: 20px;
+    }
+    .success { color: #00ffae; }
+    .error { color: #ff5555; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    footer {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, #ff0050, #ff7b00, #00ffee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* WhatsApp Button */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #25d366;
+      color: #fff;
+      font-size: 24px;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 30;
+      text-decoration: none;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      background: #20b858;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+
+  <div id="sidebar" class="sidebar">
+    <a href="#" onclick="showPage('likes')">💖 Send Likes</a>
+    <a href="#" onclick="showPage('status')">📦 Order Status</a>
+  </div>
+
+  <div id="likes" class="container page active">
+    <h2>TikTok Like BY ASIM</h2>
+    <input type="text" id="videoUrl" placeholder="Enter TikTok video URL" />
+    <input type="number" id="likeCount" placeholder="Number of likes (max 100)" min="1" max="100" />
+    <button onclick="sendLikes()">Send Likes</button>
+    <div id="message" class="message"></div>
+    <footer>Designed by ASIM ❤️</footer>
+  </div>
+
+  <div id="status" class="container page">
+    <h2>Check Order Status</h2>
+    <input type="text" id="orderId" placeholder="Enter Order ID" />
+    <button onclick="checkStatus()">Check Status</button>
+    <div id="statusMessage" class="message"></div>
+    <footer>Designed by ASIM 💖</footer>
+  </div>
+
+  <a href="https://whatsapp.com/channel/0029VawAFpk7oQhaVcrxgG06" target="_blank" class="whatsapp-float" title="Join WhatsApp Channel">💬</a>
+
+  <script>
+    const API_URL = "https://tajammalsmmprovider.com/api/v2";
+    const API_KEY = "7aa098498332909732fb3a40fca8821f";
+    const SERVICE_ID = 4923;
+
+    function toggleMenu() {
+      document.getElementById("sidebar").classList.toggle("active");
+      document.getElementById("overlay").classList.toggle("active");
+    }
+    function closeMenu() {
+      document.getElementById("sidebar").classList.remove("active");
+      document.getElementById("overlay").classList.remove("active");
+    }
+    function showPage(id) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      closeMenu();
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 600);
+
+    async function sendLikes() {
+      const videoUrl = document.getElementById("videoUrl").value.trim();
+      const likeCount = document.getElementById("likeCount").value.trim();
+      const msg = document.getElementById("message");
+
+      msg.textContent = "";
+      if (!videoUrl || !likeCount) {
+        msg.textContent = "⚠️ Please fill all fields.";
+        msg.className = "message error"; return;
+      }
+      if (likeCount > 100) {
+        msg.textContent = "❌ Max 100 likes allowed.";
+        msg.className = "message error"; return;
+      }
+
+      msg.textContent = "⏳ Sending request...";
+      msg.className = "message";
+
+      const formData = new URLSearchParams();
+      formData.append("key", API_KEY);
+      formData.append("action", "add");
+      formData.append("service", SERVICE_ID);
+      formData.append("link", videoUrl);
+      formData.append("quantity", likeCount);
+
+      try {
+        const res = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: formData });
+        const data = await res.json();
+        if (data.order) {
+          msg.textContent = `✅ Likes added! (Order ID: ${data.order})`;
+          msg.className = "message success";
+        } else {
+          msg.textContent = `❌ Error: ${data.error || "Unknown error"}`;
+          msg.className = "message error";
+        }
+      } catch {
+        msg.textContent = "❌ Network error.";
+        msg.className = "message error";
+      }
+    }
+
+    async function checkStatus() {
+      const orderId = document.getElementById("orderId").value.trim();
+      const msg = document.getElementById("statusMessage");
+      if (!orderId) {
+        msg.textContent = "⚠️ Please enter Order ID.";
+        msg.className = "message error"; return;
+      }
+
+      msg.textContent = "⏳ Checking status...";
+      msg.className = "message";
+
+      const formData = new URLSearchParams();
+      formData.append("key", API_KEY);
+      formData.append("action", "status");
+      formData.append("order", orderId);
+
+      try {
+        const res = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: formData });
+        const data = await res.json();
+        if (data.status) {
+          msg.innerHTML = `
+            ✅ <b>Status:</b> ${data.status}<br>
+            💖 <b>Start Count:</b> ${data.start_count}<br>
+            📦 <b>Remaining:</b> ${data.remains}
+          `;
+          msg.className = "message success";
+        } else {
+          msg.textContent = "❌ Error: " + (data.error || "Invalid order ID");
+          msg.className = "message error";
+        }
+      } catch {
+        msg.textContent = "❌ Connection error.";
+        msg.className = "message error";
+      }
+    }
+  </script>
+</body>
+</html>
