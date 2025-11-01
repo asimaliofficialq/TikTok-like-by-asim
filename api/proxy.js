@@ -1,3 +1,7 @@
+export const config = {
+  runtime: "nodejs"
+};
+
 export default async function handler(req, res) {
   try {
     const response = await fetch("https://tajammalsmmprovider.com/api/v2", {
@@ -17,4 +21,4 @@ export default async function handler(req, res) {
   } catch (error) {
     res.status(500).json({ error: "Proxy connection failed" });
   }
-                                 }
+}
